@@ -9,9 +9,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/superadmin" element={<DashboardSuperAdmin />} />
+        <Route path="/SuperAdmin" element={<DashboardSuperAdmin />} />
         <Route path="/rector" element={<DashboardRector />} />
-        <Route path="/student" element={<DashboardStudent />} />
+        <Route path="/Student" element={<DashboardStudent />} />
+        
       </Routes>
     </Router>
   );
