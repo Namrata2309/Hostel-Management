@@ -1,16 +1,4 @@
-<<<<<<< HEAD
-import React from 'react'
 
-function DashboardStudent() {
-  return (
-    <div>
-      Student
-    </div>
-  )
-}
-
-export default DashboardStudent
-=======
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -551,4 +539,4 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
->>>>>>> 84b5658af7d30998d40265903df2ab3e0d1eb82b
+
