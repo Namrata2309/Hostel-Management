@@ -1,15 +1,35 @@
-const express = require('express');
+// server/routes/userRoutes.js
+const express = require("express");
 const router = express.Router();
-const User = require('../models/User');
+const admin = require("../config/firebase");
+const Rector = require("../models/rector");
 
-router.post('/', async (req, res) => {
-  const { uid, email, role } = req.body;
+// Add Rector Route
+router.post("/add-rector", async (req, res) => {
+  const { name, email, password, phone } = req.body;
+
   try {
-    const newUser = new User({ uid, email, role });
-    await newUser.save();
-    res.status(201).json({ message: 'User saved to DB' });
-  } catch (err) {
-    res.status(500).json({ message: 'Error saving user', error: err.message });
+    // 1. Create Rector in Firebase Auth
+    const userRecord = await admin.auth().createUser({
+      email,
+      password,
+      displayName: name,
+    });
+
+    // 2. Store Rector details in MongoDB
+    const rector = new Rector({
+      firebaseUID: userRecord.uid,
+      name,
+      email,
+      phone
+    });
+
+    await rector.save();
+
+    res.status(201).json({ message: "Rector added successfully", rector });
+  } catch (error) {
+    console.error("Error adding rector:", error);
+    res.status(500).json({ error: error.message });
   }
 });
 
