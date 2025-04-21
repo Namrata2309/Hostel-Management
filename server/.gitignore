@@ -8,5 +8,6 @@
 
 # npm package-lock file
 package-lock.json
+**/firebaseServiceKey.json
 
 

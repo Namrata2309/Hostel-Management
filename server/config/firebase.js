@@ -1,9 +1,19 @@
 // server/config/firebase.js
-const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json"); // Add your Firebase Admin SDK key here
+import admin from "firebase-admin";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// Get __dirname in ES module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Read the service account file
+const serviceAccountPath = path.join(__dirname, "firebaseServiceKey.json");
+const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, "utf-8"));
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-module.exports = admin;
+export default admin;

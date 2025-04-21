@@ -170,7 +170,7 @@ const DashboardSuperAdmin = () => {
                     setRole('rector');
                   }}
                 >
-                  Clear
+                  Clear 1                                                                           
                 </button>
                 <button
                   type="submit"

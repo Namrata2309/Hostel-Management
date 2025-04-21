@@ -1,9 +1,51 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  uid: { type: String, required: true },
-  email: { type: String, required: true },
-  role: { type: String, enum: ['superadmin', 'rector', 'student'], required: true }
+  firebaseUid: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    lowercase: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  googleId: {
+    type: String,
+    default: null,
+  },
+  googleStyleId: {
+    type: String,
+    default: null,
+  },
+  role: {
+    type: String,
+    enum: ['superadmin', 'rector', 'student', 'staff'],
+    default: 'student',
+  },
+  roomNo: {
+    type: String,
+    default: null,
+    validate: {
+      validator: function (value) {
+        if (this.role === 'student' && (!value || value.trim() === '')) {
+          return false;
+        }
+        return true;
+      },
+      message: 'Room number is required for students.',
+    },
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-module.exports = mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);
