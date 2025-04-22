@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import userRoutes from "./routes/userRoutes.js";
-import authRoutes from './routes/authRoutes.js'; // Add `.js` extension
+import authRoutes from './routes/authRoutes.js'; // 
+// Add `.js` extension
+import noticeRoutes from "./routes/noticeRoutes.js";
 
 dotenv.config();
 
@@ -24,6 +26,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 app.use("/api/users", userRoutes);
 app.use('/api/auth', authRoutes);
+app.use("/api/notice", noticeRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
