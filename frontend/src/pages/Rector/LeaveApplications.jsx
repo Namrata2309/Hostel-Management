@@ -27,9 +27,7 @@ const LeaveApplications = () => {
 
   const handleStatusChange = (id, status) => {
     setLeaveApplications((prev) =>
-      prev.map((app) =>
-        app.id === id ? { ...app, status } : app
-      )
+      prev.map((app) => (app.id === id ? { ...app, status } : app))
     );
     toast.success(`Leave ${status}`);
   };
@@ -46,8 +44,8 @@ const LeaveApplications = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto mt-10 px-4">
-      <h2 className="text-3xl font-bold text-indigo-700 mb-8 text-center">
+    <div className="w-full px-4 sm:px-6 md:px-8 py-10">
+      <h2 className="text-2xl sm:text-3xl font-bold text-indigo-700 mb-8 text-center">
         📋 Leave Applications
       </h2>
 
@@ -55,41 +53,46 @@ const LeaveApplications = () => {
         {leaveApplications.map((app) => (
           <div
             key={app.id}
-            className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-6"
+            className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-4 sm:p-6"
           >
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="text-xl font-semibold text-gray-800">
-                {app.name} <span className="text-sm text-gray-500">({app.rollNo})</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-3">
+              <h3 className="text-base sm:text-xl font-semibold text-gray-800">
+                {app.name}{" "}
+                <span className="text-sm text-gray-500">({app.rollNo})</span>
               </h3>
               <span
-                className={`text-sm px-3 py-1 rounded-full font-medium ${statusColor(app.status)}`}
+                className={`text-sm px-3 py-1 rounded-full font-medium ${statusColor(
+                  app.status
+                )}`}
               >
                 {app.status}
               </span>
             </div>
 
-            <p className="text-gray-700 mb-1">
+            <p className="text-sm text-gray-700 mb-1">
               🗓️ <strong>From:</strong> {app.fromDate} &nbsp;|&nbsp;
               <strong>To:</strong> {app.toDate}
             </p>
 
-            <p className="text-gray-600 mb-3">
+            <p className="text-sm text-gray-600 mb-3">
               ✏️ <strong>Reason:</strong> {app.reason}
             </p>
 
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-400">📅 Applied on: {app.date}</span>
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+              <span className="text-xs text-gray-400">
+                📅 Applied on: {app.date}
+              </span>
 
-              <div className="space-x-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   onClick={() => handleStatusChange(app.id, "Approved")}
-                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition"
+                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition text-sm"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleStatusChange(app.id, "Rejected")}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition text-sm"
                 >
                   Reject
                 </button>

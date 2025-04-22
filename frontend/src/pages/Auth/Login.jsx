@@ -37,7 +37,7 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
       const { role } = res.data;
       
       
-      console.log(Curruser);
+     
       
       
       // 3. Redirect based on role

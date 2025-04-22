@@ -11,7 +11,7 @@ const Complaints = () => {
       name: "Priya Sharma",
       room: "A-102",
       type: "Electrical",
-      message: "The AC in my room isn't cooling properly and makes loud noise."
+      message: "The AC in my room isn't cooling properly and makes loud noise.",
     },
     {
       id: 2,
@@ -21,8 +21,8 @@ const Complaints = () => {
       name: "Rohan Mehta",
       room: "B-205",
       type: "Plumbing",
-      message: "There is continuous leakage from the bathroom tap."
-    }
+      message: "There is continuous leakage from the bathroom tap.",
+    },
   ]);
 
   const statusColor = (status) => {
@@ -38,8 +38,8 @@ const Complaints = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto mt-10 px-4">
-      <h2 className="text-3xl font-bold text-indigo-700 mb-8 text-center">
+    <div className="w-full px-4 sm:px-6 md:px-8 py-8">
+      <h2 className="text-2xl sm:text-3xl font-bold text-indigo-700 mb-8 text-center">
         🛠️ Student Complaints
       </h2>
 
@@ -47,17 +47,17 @@ const Complaints = () => {
         {complaints.map((c) => (
           <div
             key={c.id}
-            className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-all"
+            className="bg-white p-4 sm:p-6 rounded-xl shadow-md hover:shadow-lg transition-all"
           >
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-3">
               <div>
-                <h3 className="text-lg font-semibold text-gray-800">{c.title}</h3>
-                <p className="text-sm text-gray-500">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-800">{c.title}</h3>
+                <p className="text-sm text-gray-500 mt-1">
                   🧑 {c.name} &nbsp;|&nbsp; 🏠 Room: {c.room}
                 </p>
               </div>
               <span
-                className={`text-sm px-3 py-1 rounded-full font-medium ${statusColor(
+                className={`w-fit text-sm px-3 py-1 rounded-full font-medium ${statusColor(
                   c.status
                 )}`}
               >
@@ -69,7 +69,7 @@ const Complaints = () => {
               🛠️ <strong>Type:</strong> {c.type}
             </p>
 
-            <p className="text-gray-700 mb-2">
+            <p className="text-gray-700 mb-2 text-sm">
               📋 <strong>Description:</strong> {c.message}
             </p>
 

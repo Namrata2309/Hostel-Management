@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { UserCircleIcon, EnvelopeIcon, HomeModernIcon } from "@heroicons/react/24/outline";
+import {
+  UserCircleIcon,
+  EnvelopeIcon,
+  HomeModernIcon,
+} from "@heroicons/react/24/outline";
 
 const backUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -22,28 +26,28 @@ const StudentsList = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto mt-12 px-4">
-      <h2 className="text-4xl font-extrabold text-indigo-700 mb-10 text-center">
+    <div className="max-w-6xl mx-auto mt-8 px-4 sm:px-6 lg:px-8">
+      <h2 className="text-3xl sm:text-4xl font-extrabold text-indigo-700 mb-8 sm:mb-10 text-center">
         🧑‍🎓 Student Directory
       </h2>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {students.map((student) => (
           <div
             key={student._id}
-            className="bg-gradient-to-br from-white to-slate-50 p-6 rounded-2xl shadow-lg hover:shadow-xl border border-gray-200 transition-all duration-300"
+            className="bg-gradient-to-br from-white to-slate-50 p-5 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg border border-gray-200 transition-all duration-300"
           >
-            <div className="flex items-center gap-4 mb-4">
-              <UserCircleIcon className="h-10 w-10 text-indigo-500" />
-              <h3 className="text-xl font-semibold text-gray-800">
+            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <UserCircleIcon className="h-9 w-9 sm:h-10 sm:w-10 text-indigo-500" />
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
                 {student.username}
               </h3>
             </div>
 
-            <div className="space-y-2 text-gray-600 text-sm">
+            <div className="space-y-2 text-gray-600 text-sm sm:text-base">
               <div className="flex items-center gap-2">
                 <EnvelopeIcon className="h-5 w-5 text-gray-500" />
-                <span className="break-all">{student.email}</span>
+                <span className="break-words">{student.email}</span>
               </div>
 
               <div className="flex items-center gap-2">
