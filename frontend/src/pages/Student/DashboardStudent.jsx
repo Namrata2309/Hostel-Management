@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { handleLogout } from '../../scripts/api';
 
 const StudentDashboard = () => {
   const [studentData, setStudentData] = useState({
@@ -36,9 +37,7 @@ const StudentDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    navigate('/login');
-  };
+  
 
   const submitComplaint = (e) => {
     e.preventDefault();
@@ -99,7 +98,7 @@ const StudentDashboard = () => {
             <div className="flex items-center gap-3">
               <span className="hidden md:inline-block font-medium">Welcome, {studentData.name}</span>
               <button 
-                onClick={handleLogout} 
+                onClick={handleLogout(navigate)} 
                 className="bg-red-500/90 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all
                           transform hover:scale-105 active:scale-95 shadow-md"
               >

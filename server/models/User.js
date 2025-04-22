@@ -41,6 +41,11 @@ const userSchema = new mongoose.Schema({
       message: 'Room number is required for students.',
     },
   },
+  uid: {
+    type: String,
+    required: true,
+    lowercase: true,
+  },
 
   createdAt: {
     type: Date,

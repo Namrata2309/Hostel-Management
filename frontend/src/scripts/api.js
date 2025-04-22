@@ -1,5 +1,5 @@
 import axios from "axios";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup,signOut } from "firebase/auth";
 import { auth, provider } from "./firebase";
 
 
@@ -26,9 +26,9 @@ export const handleGoogleLogin = async (navigate) => {
     console.log("Google login user:", user);
 
     if (user.role === 'superadmin') {
-       navigate('/pages/SuperAdmin/DashboardSuperAdmin');
+       navigate('/SuperAdmin');
     } else if (user.role === 'student') {
-       navigate('/pages/Student/StudentDashboard');
+       navigate('/student');
     } else if (user.role === 'staff') {
        navigate('/pages/Staff/StaffDashboard');
     } else {
@@ -62,5 +62,22 @@ export const handleEmailLogin = async (e, email, password, navigate) => {
 
   } catch (err) {
     console.error("Email login error", err.message);
+  }
+};
+
+
+// Logout function
+export const handleLogout = async (navigate) => {
+  try {
+    await signOut(auth);
+    console.log("User signed out successfully");
+
+    // Optionally clear localStorage/sessionStorage if used
+    // localStorage.removeItem("someToken");
+
+    // Redirect to login page or home page
+    navigate('/');
+  } catch (error) {
+    console.error("Logout error:", error.message);
   }
 };
