@@ -1,9 +1,13 @@
 // src/pages/Login.jsx
-import { useState } from "react";
+import { useState,useRef } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../scripts/firebase"; // adjust the path as needed
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+
+
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,6 +15,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const userdata=useRef()
+
 const backUrl = import.meta.env.VITE_BACKEND_URL;
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,14 +29,17 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
       const firebaseUid = userCredential.user.uid;
 
       // 2. Get user role from backend
-      const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+     const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
         firebaseUid,
       });
-
+      userdata.current=res
+     
       const { role } = res.data;
-      console.log("User role:", role);
       
-
+      
+      console.log(Curruser);
+      
+      
       // 3. Redirect based on role
       if (role === "superadmin") {
         navigate("/SuperAdmin");
@@ -48,7 +57,7 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
       setLoading(false);
     }
   };
-
+ 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-600">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">

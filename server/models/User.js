@@ -28,16 +28,6 @@ const userSchema = new mongoose.Schema({
     enum: ['superadmin', 'rector', 'student', 'staff'],
     default: 'student',
   },
-  uid: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   roomNo: {
     type: String,
     default: null,
@@ -51,6 +41,17 @@ const userSchema = new mongoose.Schema({
       message: 'Room number is required for students.',
     },
   },
+  uid: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+ 
 
   createdAt: {
     type: Date,

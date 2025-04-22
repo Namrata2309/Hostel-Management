@@ -1,5 +1,5 @@
 import axios from "axios";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup,signOut } from "firebase/auth";
 import { auth, provider } from "./firebase";
 
 
@@ -7,6 +7,14 @@ import { auth, provider } from "./firebase";
 // Also fix axios URLs
 const backUrl=import.meta.env.VITE_BACKEND_URL
 console.log(backUrl);
+
+
+// console.log(auth.currentUser);
+
+// const firebaseUid = auth.currentUser
+// export const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+//   firebaseUid,
+// });
 
 
 export const sendTokenToBackend = async (token) => {
@@ -26,9 +34,9 @@ export const handleGoogleLogin = async (navigate) => {
     console.log("Google login user:", user);
 
     if (user.role === 'superadmin') {
-       navigate('/pages/SuperAdmin/DashboardSuperAdmin');
+       navigate('/SuperAdmin');
     } else if (user.role === 'student') {
-       navigate('/pages/Student/StudentDashboard');
+       navigate('/student');
     } else if (user.role === 'staff') {
        navigate('/pages/Staff/StaffDashboard');
     } else {
@@ -54,8 +62,8 @@ export const handleEmailLogin = async (e, email, password, navigate) => {
        navigate('/SuperAdmin');
     } else if (user.role === 'student') {
        navigate('/student');
-    } else if (user.role === 'staff') {
-       navigate('/pages/Staff/StaffDashboard');
+    } else if (user.role === 'rector') {
+       navigate('/rector');
     } else {
        navigate('/pages/DefaultDashboard');
     }
@@ -66,4 +74,18 @@ export const handleEmailLogin = async (e, email, password, navigate) => {
 };
 
 
+// Logout function
+export const handleLogout = async (navigate) => {
+  try {
+    await signOut(auth);
+    console.log("User signed out successfully");
 
+    // Optionally clear localStorage/sessionStorage if used
+    // localStorage.removeItem("someToken");
+
+    // Redirect to login page or home page
+    navigate('/');
+  } catch (error) {
+    console.error("Logout error:", error.message);
+  }
+};
