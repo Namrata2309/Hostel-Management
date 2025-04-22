@@ -9,6 +9,17 @@ router.get("/", (req, res) => {
   res.send("User route works!");
 });
 
+router.get("/students", async (req, res) => {
+  console.log("GET /students route hit ✅");
+  try {
+    const students = await User.find({ role: "student" }).sort({ roomNo: 1 });
+    res.status(200).json(students);
+  } catch (err) {
+    console.error("Error fetching students:", err);
+    res.status(500).json({ message: "Failed to fetch students" });
+  }
+});
+
 
 router.post("/getUserByFirebaseUid", async (req, res) => {
   try {
