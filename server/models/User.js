@@ -44,8 +44,14 @@ const userSchema = new mongoose.Schema({
   uid: {
     type: String,
     required: true,
-    lowercase: true,
+    unique: true,
   },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+ 
 
   createdAt: {
     type: Date,

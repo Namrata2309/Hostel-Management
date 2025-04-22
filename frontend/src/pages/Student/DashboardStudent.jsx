@@ -98,7 +98,7 @@ const StudentDashboard = () => {
             <div className="flex items-center gap-3">
               <span className="hidden md:inline-block font-medium">Welcome, {studentData.name}</span>
               <button 
-                onClick={handleLogout(navigate)} 
+                 
                 className="bg-red-500/90 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all
                           transform hover:scale-105 active:scale-95 shadow-md"
               >
