@@ -54,8 +54,8 @@ export const handleEmailLogin = async (e, email, password, navigate) => {
        navigate('/SuperAdmin');
     } else if (user.role === 'student') {
        navigate('/student');
-    } else if (user.role === 'staff') {
-       navigate('/pages/Staff/StaffDashboard');
+    } else if (user.role === 'rector') {
+       navigate('/rector');
     } else {
        navigate('/pages/DefaultDashboard');
     }
