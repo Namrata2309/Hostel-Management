@@ -28,6 +28,16 @@ const userSchema = new mongoose.Schema({
     enum: ['superadmin', 'rector', 'student', 'staff'],
     default: 'student',
   },
+  uid: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   roomNo: {
     type: String,
     default: null,
