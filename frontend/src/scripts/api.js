@@ -9,6 +9,14 @@ const backUrl=import.meta.env.VITE_BACKEND_URL
 console.log(backUrl);
 
 
+// console.log(auth.currentUser);
+
+// const firebaseUid = auth.currentUser
+// export const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+//   firebaseUid,
+// });
+
+
 export const sendTokenToBackend = async (token) => {
   const response = await axios.post(`${backUrl}/api/auth/login`, {
     token,

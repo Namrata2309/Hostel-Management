@@ -4,6 +4,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../scripts/firebase"; // adjust the path as needed
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+
+
+
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -28,12 +33,13 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
         firebaseUid,
       });
       userdata.current=res
-
+     
       const { role } = res.data;
       
       
+      console.log(Curruser);
       
-
+      
       // 3. Redirect based on role
       if (role === "superadmin") {
         navigate("/SuperAdmin");
@@ -51,7 +57,7 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
       setLoading(false);
     }
   };
-
+ 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-600">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">

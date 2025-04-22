@@ -2,12 +2,25 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { handleLogout } from '../../scripts/api';
+import { FireUid } from '../../scripts/firebase';
+import axios from 'axios';
+
+const firebaseUid =await FireUid()
+console.log(firebaseUid);
+
+const backUrl = import.meta.env.VITE_BACKEND_URL;
+const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+  firebaseUid,
+});
+
+console.log(res);
+
 
 const StudentDashboard = () => {
   const [studentData, setStudentData] = useState({
-    name: 'John Doe',
+    name: res.data.email,
     id: 'STU2023001',
-    room: 'B-204',
+    room: res.data.roomNo,
     hostel: 'Boys Hostel A',
     contact: 'john.doe@example.com',
     phone: '+1234567890'
