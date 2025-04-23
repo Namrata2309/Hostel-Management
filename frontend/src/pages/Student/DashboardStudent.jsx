@@ -37,10 +37,7 @@ const StudentDashboard = () => {
     { id: 2, title: 'Sports Tournament', date: '2023-06-12', time: '4:00 PM' }
   ]);
   
-  const [complaints, setComplaints] = useState([
-    { id: 1, title: 'AC not working', status: 'Resolved', date: '2023-05-01' },
-    { id: 2, title: 'Water leakage', status: 'In Progress', date: '2023-05-10' }
-  ]);
+  const [complaints, setComplaints] = useState([{}]);
   
   const [leaveApplications, setLeaveApplications] = useState([
     { id: 1, fromDate: '2023-04-15', toDate: '2023-04-18', reason: 'Family function', status: 'Approved', date: '2023-04-10' },

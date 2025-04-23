@@ -68,7 +68,7 @@ const RegisterStudent = () => {
       console.error(err);
       toast.error("Registration Failed!");
     }
-    console.log("Form Data:", formData);
+    
     
   };
 
