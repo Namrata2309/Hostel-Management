@@ -27,8 +27,8 @@ useEffect(() => {
       const userData = res.data;
       
       const newStudentData = {
-        name: userData.name || '',
-        id: userData.id || '',
+        name: userData.username || '',
+        id: userData.rollNo || '',
         room: userData.roomNo || '',
         hostel: userData.hostel || '',
         contact: userData.email || '',
@@ -46,9 +46,7 @@ useEffect(() => {
 }, []);
 
 const checkProfileCompleteness = (data) => {
-  const complete = data.name.trim() && 
-                  data.id.trim() && 
-                  data.hostel.trim() && 
+  const complete = data.hostel.trim() && 
                   data.phone.trim();
   setIsProfileComplete(complete);
   if (!complete) setActiveTab('profile');
@@ -61,8 +59,6 @@ const handleProfileSubmit = async (e) => {
     const backUrl = import.meta.env.VITE_BACKEND_URL;
     await axios.post(`${backUrl}/api/users/updateProfile`, {
       firebaseUid,
-      name: studentData.name,
-      id: studentData.id,
       hostel: studentData.hostel,
       phone: studentData.phone
     });
@@ -230,7 +226,7 @@ const handleProfileSubmit = async (e) => {
                   <input
                     type="text"
                     value={studentData.name}
-                    onChange={(e) => setStudentData({...studentData, name: e.target.value})}
+                    
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
                     required
                   />
@@ -695,4 +691,6 @@ const handleProfileSubmit = async (e) => {
 };
 
 export default StudentDashboard;
+
+
 

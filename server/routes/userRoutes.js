@@ -30,7 +30,7 @@ router.post("/getUserByFirebaseUid", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ role: user.role, email: user.email,roomNo:user.roomNo });
+    return res.status(200).json({ role: user.role, email: user.email,roomNo:user.roomNo,rollNo:user.rollNo,username:user.username, });
   } catch (err) {
     console.error("Error fetching user by firebaseUid:", err);
     return res.status(500).json({ message: "Server error" });
@@ -39,7 +39,7 @@ router.post("/getUserByFirebaseUid", async (req, res) => {
 // Register user (Google or Email+Password)
 router.post("/register", async (req, res) => {
   
-  const { firebaseUid, email, username, googleId, googleStyleId, role, roomNo,uid,id } = req.body;
+  const { firebaseUid, email, username, googleId, googleStyleId, role, roomNo,uid,id,rollNo } = req.body;
   try {
   
    
@@ -53,8 +53,10 @@ router.post("/register", async (req, res) => {
       googleStyleId,
       role,
       roomNo,
+      rollNo,
       uid:email,
       id:googleId,
+      
     });
 
     // Save to DB
