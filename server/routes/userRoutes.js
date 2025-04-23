@@ -39,7 +39,7 @@ router.post("/getUserByFirebaseUid", async (req, res) => {
 // Register user (Google or Email+Password)
 router.post("/register", async (req, res) => {
   
-  const { firebaseUid, email, username, googleId, googleStyleId, role, roomNo,uid,id } = req.body;
+  const { firebaseUid, email, username, googleId, googleStyleId, role, roomNo,uid,id,rollNo } = req.body;
   try {
   
    
@@ -53,8 +53,10 @@ router.post("/register", async (req, res) => {
       googleStyleId,
       role,
       roomNo,
+      rollNo,
       uid:email,
       id:googleId,
+      
     });
 
     // Save to DB

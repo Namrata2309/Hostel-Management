@@ -41,6 +41,19 @@ const userSchema = new mongoose.Schema({
       message: 'Room number is required for students.',
     },
   },
+  rollNo: {
+    type: String,
+    default: null,
+    validate: {
+      validator: function (value) {
+        if (this.role === 'student' && (!value || value.trim() === '')) {
+          return false;
+        }
+        return true;
+      },
+      message: 'Roll No number is required for students.',
+    },
+  },
   uid: {
     type: String,
     required: true,
