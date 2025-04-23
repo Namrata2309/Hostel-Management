@@ -13,7 +13,8 @@ const StudentDashboard = () => {
     room: '',
     hostel: '',
     contact: '',
-    phone: ''
+    phone: '',
+    isProfileComplete:false
   });
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
@@ -25,6 +26,7 @@ useEffect(() => {
       const backUrl = import.meta.env.VITE_BACKEND_URL;
       const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, { firebaseUid });
       const userData = res.data;
+      console.log(userData);
       
       const newStudentData = {
         name: userData.username || '',
@@ -32,11 +34,20 @@ useEffect(() => {
         room: userData.roomNo || '',
         hostel: userData.hostel || '',
         contact: userData.email || '',
-        phone: userData.phone || ''
+        phone: userData.phone || '',
+        isProfileComplete: userData.isProfileComplete
       };
-      
+
       setStudentData(newStudentData);
-      checkProfileCompleteness(newStudentData);
+
+      if (userData.isProfileComplete) {
+        setIsProfileComplete(true);
+        // proceed to dashboard or next tab
+        setActiveTab('dashboard'); // or any other tab
+      } else {
+        setIsProfileComplete(false);
+        setActiveTab('profile'); // force user to complete profile
+      }
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
@@ -45,12 +56,14 @@ useEffect(() => {
   fetchUserData();
 }, []);
 
-const checkProfileCompleteness = (data) => {
-  const complete = data.hostel.trim() && 
-                  data.phone.trim();
-  setIsProfileComplete(complete);
-  if (!complete) setActiveTab('profile');
-};
+// const checkProfileCompleteness = (data) => {
+//   const calculated = data.hostel.trim() !== '' && data.phone.trim() !== '';
+//   const complete = data.isProfileComplete || calculated;
+//   console.log(data.isProfileComplete);
+  
+//   setIsProfileComplete(complete);
+//   if (!complete) setActiveTab('profile');
+// };
 
 const handleProfileSubmit = async (e) => {
   e.preventDefault();
@@ -60,9 +73,10 @@ const handleProfileSubmit = async (e) => {
     await axios.post(`${backUrl}/api/users/updateProfile`, {
       firebaseUid,
       hostel: studentData.hostel,
-      phone: studentData.phone
+      phoneNo: studentData.phone,
+      isUpdated:studentData.isUpdated
     });
-    checkProfileCompleteness(studentData);
+    //  checkProfileCompleteness(studentData);
     alert('Profile updated successfully!');
     setIsEditing(false);
   } catch (error) {
@@ -97,20 +111,44 @@ const handleProfileSubmit = async (e) => {
 
   
 
-  const submitComplaint = (e) => {
+  const submitComplaint = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const newComplaint = {
-      id: complaints.length + 1,
-      title: formData.get('title'),
-      description: formData.get('description'),
-      status: 'Pending',
-      date: new Date().toISOString().split('T')[0]
-    };
-    setComplaints([...complaints, newComplaint]);
-    alert('Complaint submitted successfully!');
-    e.target.reset();
+    try {
+      const formData = new FormData(e.target);
+      const firebaseUid = await FireUid();
+      const backUrl = import.meta.env.VITE_BACKEND_URL;
+  
+      const response = await axios.post(`${backUrl}/api/complaints/submit`, {
+        firebaseUid,
+        title: formData.get('title'),
+        description: formData.get('description')
+      });
+  
+      setComplaints([...complaints, response.data]);
+      alert('Complaint submitted successfully!');
+      e.target.reset();
+    } catch (error) {
+      console.error('Error submitting complaint:', error);
+      alert('Failed to submit complaint. Please try again.');
+    }
   };
+
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const firebaseUid = await FireUid();
+        const backUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await axios.get(`${backUrl}/api/complaints/user/${firebaseUid}`);
+        setComplaints(response.data);
+      } catch (error) {
+        console.error('Error fetching complaints:', error);
+      }
+    };
+  
+    if (isProfileComplete) {
+      fetchComplaints();
+    }
+  }, [isProfileComplete]);  
 
   const submitLeaveApplication = (e) => {
     e.preventDefault();
@@ -228,7 +266,7 @@ const handleProfileSubmit = async (e) => {
                     value={studentData.name}
                     
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                    required
+                    readOnly
                   />
                 </div>
                 <div>
@@ -236,9 +274,8 @@ const handleProfileSubmit = async (e) => {
                   <input
                     type="text"
                     value={studentData.id}
-                    onChange={(e) => setStudentData({...studentData, id: e.target.value})}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
-                    required
+                    readOnly
                   />
                 </div>
                 <div>
