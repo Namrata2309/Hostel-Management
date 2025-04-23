@@ -217,6 +217,23 @@ const handleProfileSubmit = async (e) => {
       alert('Failed to submit leave application.');
     }
   };
+  useEffect(() => {
+    const fetchLeaveHistory = async () => {
+      try {
+        const firebaseUid = await FireUid(); // Assumes FireUid() returns the current user's UID
+        const backUrl = import.meta.env.VITE_BACKEND_URL;
+        const response = await axios.get(`${backUrl}/api/leave/history/${firebaseUid}`);
+        console.log(response);
+        
+        setLeaveApplications(response.data); // Assumes you have useState for leaveApplications
+      } catch (error) {
+        console.error('Error fetching leave history:', error);
+      }
+    };
+  
+    fetchLeaveHistory();
+  }, []);
+  
   
   
 
@@ -583,10 +600,10 @@ const handleProfileSubmit = async (e) => {
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h4 className="text-lg font-semibold text-gray-900">
-                    {application.fromDate} - {application.toDate}
+                    {new Date(application.fromDate).toDateString()} - {new Date(application.toDate).toDateString()}
                   </h4>
                   <p className="text-sm text-gray-500 mt-1">
-                    Applied on: {application.date}
+                    Applied on: {new Date(application.date).toDateString()}
                   </p>
                 </div>
                 <span className={`px-3 py-1 rounded-full text-sm ${getStatusColor(application.status)}`}>
@@ -597,7 +614,7 @@ const handleProfileSubmit = async (e) => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm">
                   <span className="font-medium text-gray-700">Reason:</span>
-                  <span className="text-gray-600">{application.reason}</span>
+                  <span className="text-gray-600">{application.reasonType}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
                   <span className="font-medium text-gray-700">Address:</span>
