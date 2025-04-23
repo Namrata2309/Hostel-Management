@@ -68,7 +68,7 @@ const DashboardSuperAdmin = () => {
       await axios.post(`${backUrl}/api/users/register`, {
         firebaseUid: userCredential.user.uid,
         email: data.email,
-        username:'',
+        username: data.username,
         googleId: generategoogleId(),
         googleStyleId: generateGoogleStyleId(),
         role: data.role,
@@ -76,7 +76,7 @@ const DashboardSuperAdmin = () => {
       });
 
       await addDoc(collection(db, "activities"), {
-        user: '',
+        user: data.username,
         role: data.role,
         activity: `Registered as ${data.role}`,
         timestamp: serverTimestamp(),

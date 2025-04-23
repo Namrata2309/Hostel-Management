@@ -1,29 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
+
+
+const backUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Complaints = () => {
-  const [complaints, setComplaints] = useState([
-    {
-      id: 1,
-      title: "AC not working",
-      status: "Resolved",
-      date: "2023-05-01",
-      name: "Priya Sharma",
-      room: "A-102",
-      type: "Electrical",
-      message: "The AC in my room isn't cooling properly and makes loud noise.",
-    },
-    {
-      id: 2,
-      title: "Water leakage",
-      status: "In Progress",
-      date: "2023-05-10",
-      name: "Rohan Mehta",
-      room: "B-205",
-      type: "Plumbing",
-      message: "There is continuous leakage from the bathroom tap.",
-    },
-  ]);
+  const [complaints, setComplaints] = useState([]);
+
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      try {
+        const res = await axios.get(`${backUrl}/api/complaints`);
+        setComplaints(res.data);
+      } catch (error) {
+        toast.error("Failed to fetch complaints");
+        console.error(error);
+      }
+    };
+
+    fetchComplaints();
+  }, []);
 
   const statusColor = (status) => {
     switch (status) {
@@ -46,7 +43,7 @@ const Complaints = () => {
       <div className="grid gap-6">
         {complaints.map((c) => (
           <div
-            key={c.id}
+            key={c._id}
             className="bg-white p-4 sm:p-6 rounded-xl shadow-md hover:shadow-lg transition-all"
           >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-3">
