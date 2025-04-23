@@ -50,6 +50,19 @@ router.post('/apply', async (req, res) => {
   }
 });
 
+
+router.get('/history/:firebaseUid', async (req, res) => {
+    try {
+      const { firebaseUid } = req.params;
+      const leaves = await LeaveApplication.find({ firebaseUid });
+      res.status(200).json(leaves);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error fetching leave history.' });
+    }
+  });
+  
+
+
 // Get all leave applications
 router.get("/", async (req, res) => {
   const leaves = await LeaveApplication.find().sort({ date: -1 });
