@@ -9,6 +9,7 @@ import authRoutes from './routes/authRoutes.js'; //
 // Add `.js` extension
 import noticeRoutes from "./routes/noticeRoutes.js";
 import complaintRoutes from './routes/complaintsRoutes.js';
+import eventRoutes from './routes/eventRoutes.js'; // Add `.js` extension
 import leaveRoutes from './routes/leaveRoutes.js';
 
 dotenv.config();

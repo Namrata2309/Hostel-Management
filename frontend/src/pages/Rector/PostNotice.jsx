@@ -1,11 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 const PostNotice = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [notices, setNotices] = useState([]);
 
+  // Fetch notices
+  const fetchNotices = async () => {
+    try {
+      const res = await axios.get("/api/notice");
+      setNotices(res.data.reverse()); // Newest first
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch notices.");
+    }
+  };
+
+  // Post new notice
   const handlePost = async () => {
     if (!title || !message) return toast.error("Please fill in both fields");
 
@@ -19,11 +32,16 @@ const PostNotice = () => {
       toast.success("📢 Notice posted!");
       setTitle("");
       setMessage("");
+      fetchNotices(); // Refresh the notice list
     } catch (err) {
       console.error(err);
       toast.error("Failed to post notice.");
     }
   };
+
+  useEffect(() => {
+    fetchNotices();
+  }, []);
 
   return (
     <div className="w-full px-4 sm:px-6 md:px-8 py-10">
@@ -56,6 +74,26 @@ const PostNotice = () => {
             Post Notice
           </button>
         </div>
+      </div>
+
+      {/* 📝 Previously Posted Notices */}
+      <div className="max-w-xl mx-auto mt-10">
+        <h3 className="text-xl font-semibold text-indigo-700 mb-4">📃 Previous Notices</h3>
+        {notices.length > 0 ? (
+          <ul className="space-y-4">
+            {notices.map((notice) => (
+              <li key={notice._id} className="bg-gray-50 p-4 rounded-lg shadow">
+                <h4 className="font-bold text-indigo-600">{notice.title}</h4>
+                <p className="text-sm text-gray-700 mt-1">{notice.message}</p>
+                <p className="text-xs text-gray-500 mt-2">
+                  📅 {new Date(notice.createdAt).toLocaleString()}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-500">No notices posted yet.</p>
+        )}
       </div>
     </div>
   );
