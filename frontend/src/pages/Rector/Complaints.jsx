@@ -49,7 +49,7 @@ const Complaints = () => {
               <div>
                 <h3 className="text-base sm:text-lg font-semibold text-gray-800">{c.title}</h3>
                 <p className="text-sm text-gray-500 mt-1">
-                  🧑 {c.name} &nbsp;|&nbsp; 🏠 Room: {c.room}
+                  🧑 {c.name} &nbsp;|&nbsp; 🏠 Room: {c.roomNo}
                 </p>
               </div>
               <span
@@ -66,10 +66,10 @@ const Complaints = () => {
             </p>
 
             <p className="text-gray-700 mb-2 text-sm">
-              📋 <strong>Description:</strong> {c.message}
+              📋 <strong>Description:</strong> {c.description}
             </p>
 
-            <p className="text-xs text-gray-400 mt-2">📅 Reported on: {c.date}</p>
+            <p className="text-xs text-gray-400 mt-2">📅 Reported on: {new Date(c.reportedDate).toLocaleString()}</p>
 
             {/* Status Dropdown */}
             <div className="mt-4">

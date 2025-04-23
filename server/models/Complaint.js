@@ -1,19 +1,37 @@
-// models/Complaint.js
 import mongoose from 'mongoose';
 
 const complaintSchema = new mongoose.Schema({
-  user: {
+  firebaseUid: {
     type: String,
-    required: true,
-    ref: 'User'
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  rollNo: {
+    type: String,
+    required: true
+  },
+  roomNo: {
+    type: String,
+    required: true
   },
   title: {
     type: String,
     required: true
   },
+  type: {
+    type: String,
+    default: ''
+  },
   description: {
     type: String,
-    required: true
+    default: ''
+  },
+  reportedDate: {
+    type: Date,
+    default: Date.now
   },
   status: {
     type: String,
@@ -30,5 +48,5 @@ const complaintSchema = new mongoose.Schema({
   }
 });
 
-const Complaint = mongoose.model('Complaint', complaintSchema);
+const Complaint = mongoose.models.Complaint || mongoose.model('Complaint', complaintSchema);
 export default Complaint;

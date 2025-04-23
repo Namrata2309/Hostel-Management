@@ -74,7 +74,7 @@ res.json(leaves);
 router.put("/:id", async (req, res) => {
   const { status } = req.body;
   try {
-    const updated = await Leave.findByIdAndUpdate(
+    const updated = await LeaveApplication.findByIdAndUpdate(
       req.params.id,
       { status },
       { new: true }

@@ -7,21 +7,34 @@ const router = express.Router();
 // Submit complaint
 router.post('/submit', async (req, res) => {
   try {
-    const { firebaseUid, title, description } = req.body;
+    const {
+      firebaseUid,
+      name,
+      rollNo,
+      roomNo,
+      title,
+      type,
+      description,
+      reportedDate
+    } = req.body;
 
-    if (!firebaseUid || !title || !description) {
+    if (!firebaseUid || !title || !name || !roomNo || !rollNo) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
     const newComplaint = new Complaint({
-      user: firebaseUid,
+      firebaseUid,
+      name,
+      rollNo,
+      roomNo,
       title,
+      type,
       description,
+      reportedDate: reportedDate || new Date(),
       status: 'Pending'
     });
 
     await newComplaint.save();
-
     res.status(201).json(newComplaint);
   } catch (error) {
     console.error('Error submitting complaint:', error);

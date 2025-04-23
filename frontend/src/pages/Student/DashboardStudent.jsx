@@ -112,26 +112,37 @@ const handleProfileSubmit = async (e) => {
 
   const submitComplaint = async (e) => {
     e.preventDefault();
+  
     try {
-      const formData = new FormData(e.target);
       const firebaseUid = await FireUid();
       const backUrl = import.meta.env.VITE_BACKEND_URL;
   
-      const response = await axios.post(`${backUrl}/api/complaints/submit`, {
-        firebaseUid,
-        title: formData.get('title'),
-        description: formData.get('description')
-      });
+      const formData = new FormData(e.target);
   
-      setComplaints([...complaints, response.data]);
+      const complaintData = {
+        firebaseUid,
+        name: studentData.name,
+        rollNo: studentData.rollNo,
+        roomNo: studentData.room,
+        title: formData.get('title'),
+        type: formData.get('type') || '', // example: 'Food', 'Water', 'Cleaning', etc.
+        description: formData.get('description'),
+        reportedDate: new Date().toISOString(),
+        status: 'Pending'
+      };
+  
+      const response = await axios.post(`${backUrl}/api/complaints/submit`, complaintData);
+  
       alert('Complaint submitted successfully!');
       e.target.reset();
+  
+      // Optional: Update local state if you are displaying complaints
+      setComplaints((prev) => [...prev, response.data]);
     } catch (error) {
       console.error('Error submitting complaint:', error);
       alert('Failed to submit complaint. Please try again.');
     }
   };
-
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
@@ -175,10 +186,9 @@ const handleProfileSubmit = async (e) => {
         toast.error("Failed to fetch events.");
       }
     };
-    if (isProfileComplete) {
-      fetchEvents();
-    }
-  }, [isProfileComplete]);  
+    fetchEvents();
+    
+  }, []);  
 
   const submitLeaveApplication = async (e) => {
     e.preventDefault();
@@ -651,6 +661,19 @@ const handleProfileSubmit = async (e) => {
              type="text" 
              name="title" 
              required 
+             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+             placeholder="Enter complaint title..."
+           />
+         </div>
+         <div>
+           <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-1">
+             <span className="text-red-500">*</span>
+             Complaint Type
+           </label>
+           <input 
+             type="text" 
+             name="type" 
+             
              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
              placeholder="Enter complaint title..."
            />
