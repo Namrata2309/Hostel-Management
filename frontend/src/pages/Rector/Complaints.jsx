@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-
 const backUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Complaints = () => {
@@ -71,6 +70,38 @@ const Complaints = () => {
             </p>
 
             <p className="text-xs text-gray-400 mt-2">📅 Reported on: {c.date}</p>
+
+            {/* Status Dropdown */}
+            <div className="mt-4">
+              <label htmlFor={`status-${c._id}`} className="block text-sm font-medium text-gray-700">
+                Update Status
+              </label>
+              <select
+                id={`status-${c._id}`}
+                value={c.status}
+                onChange={async (e) => {
+                  const newStatus = e.target.value;
+                  try {
+                    const res = await axios.patch(
+                      `${backUrl}/api/complaints/${c._id}/status`,
+                      { status: newStatus }
+                    );
+                    setComplaints((prev) =>
+                      prev.map((item) => (item._id === c._id ? res.data : item))
+                    );
+                    toast.success("Status updated");
+                  } catch (error) {
+                    toast.error("Failed to update status");
+                    console.error(error);
+                  }
+                }}
+                className="mt-2 block w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
+              >
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+            </div>
           </div>
         ))}
       </div>

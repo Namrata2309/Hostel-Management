@@ -39,5 +39,41 @@ router.get('/user/:firebaseUid', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+router.get('/', async (req, res) => {
+  try {
+    const complaints = await Complaint.find().sort({ createdAt: -1 });
+    res.json(complaints);
+  } catch (error) {
+    console.error('Error fetching all complaints:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Update complaint status
+router.patch('/:id/status', async (req, res) => {
+  try {
+    const { status } = req.body;
+    const validStatuses = ['Pending', 'In Progress', 'Resolved'];
+
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ error: 'Invalid status value' });
+    }
+
+    const complaint = await Complaint.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!complaint) {
+      return res.status(404).json({ error: 'Complaint not found' });
+    }
+
+    res.json(complaint);
+  } catch (error) {
+    console.error('Error updating complaint status:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 export default router;

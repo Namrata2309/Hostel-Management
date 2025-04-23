@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { handleLogout } from '../../scripts/api';
 import { FireUid } from '../../scripts/firebase';
 import axios from 'axios';
+import toast from "react-hot-toast";
 
 
 const StudentDashboard = () => {
@@ -147,6 +148,37 @@ const handleProfileSubmit = async (e) => {
   
     if (isProfileComplete) {
       fetchComplaints();
+    }
+  }, [isProfileComplete]);  
+
+  // Fetch notices
+  useEffect(() => {
+    const fetchNotices = async () => {
+      try {
+        const res = await axios.get("/api/notice");
+        setNotices(res.data.reverse()); // Newest first
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to fetch notices.");
+      }
+    };
+    if (isProfileComplete) {
+      fetchNotices();
+    }
+  }, [isProfileComplete]);  
+
+  // Fetch events
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const res = await axios.get("/api/events");
+        setUpcomingEvents(res.data);
+      } catch {
+        toast.error("Failed to fetch events.");
+      }
+    };
+    if (isProfileComplete) {
+      fetchEvents();
     }
   }, [isProfileComplete]);  
 
@@ -351,18 +383,8 @@ const handleProfileSubmit = async (e) => {
       )}
             </div>
           )}
-
-
-
-         
-
-        
-
-
-
-         
-          {isProfileComplete && (
-  <>
+  {isProfileComplete && (
+    <>
     {activeTab === 'dashboard' && (
        <div className="space-y-8">
        <h2 className="text-3xl font-bold text-gray-800 mb-2">Dashboard Overview</h2>
