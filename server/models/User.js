@@ -56,7 +56,6 @@ const userSchema = new mongoose.Schema({
   },
   hostel: {
     type: String,
-    default: null,
     validate: {
       validator: function (value) {
         if (this.role === 'student' && (!value || value.trim() === '')) {

@@ -9,6 +9,7 @@ import authRoutes from './routes/authRoutes.js'; //
 // Add `.js` extension
 import noticeRoutes from "./routes/noticeRoutes.js";
 import complaintRoutes from './routes/complaintsRoutes.js';
+import leaveRoutes from './routes/leaveRoutes.js';
 
 dotenv.config();
 
@@ -29,5 +30,6 @@ app.use("/api/users", userRoutes);
 app.use('/api/auth', authRoutes);
 app.use("/api/notice", noticeRoutes);
 app.use('/api/complaints', complaintRoutes);
+app.use('/api/leave', leaveRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,5 +1,5 @@
 
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { handleLogout } from '../../scripts/api';
 import { FireUid } from '../../scripts/firebase';
@@ -14,11 +14,13 @@ const StudentDashboard = () => {
     hostel: '',
     contact: '',
     phone: '',
+    rollNo:'',
     isProfileComplete:false
   });
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
+  
 useEffect(() => {
   const fetchUserData = async () => {
     try {
@@ -26,7 +28,8 @@ useEffect(() => {
       const backUrl = import.meta.env.VITE_BACKEND_URL;
       const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, { firebaseUid });
       const userData = res.data;
-      console.log(userData);
+      
+      
       
       const newStudentData = {
         name: userData.username || '',
@@ -35,6 +38,7 @@ useEffect(() => {
         hostel: userData.hostel || '',
         contact: userData.email || '',
         phone: userData.phone || '',
+        rollNo:userData.rollNo,
         isProfileComplete: userData.isProfileComplete
       };
 
@@ -56,14 +60,8 @@ useEffect(() => {
   fetchUserData();
 }, []);
 
-// const checkProfileCompleteness = (data) => {
-//   const calculated = data.hostel.trim() !== '' && data.phone.trim() !== '';
-//   const complete = data.isProfileComplete || calculated;
-//   console.log(data.isProfileComplete);
-  
-//   setIsProfileComplete(complete);
-//   if (!complete) setActiveTab('profile');
-// };
+
+
 
 const handleProfileSubmit = async (e) => {
   e.preventDefault();
@@ -150,26 +148,47 @@ const handleProfileSubmit = async (e) => {
     }
   }, [isProfileComplete]);  
 
-  const submitLeaveApplication = (e) => {
+  const submitLeaveApplication = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const newLeaveApplication = {
-      id: leaveApplications.length + 1,
-      fromDate: formData.get('fromDate'),
-      toDate: formData.get('toDate'),
-      address: formData.get('address'),
-      reason: formData.get('reasonType') === 'Other' 
-              ? formData.get('otherReason') 
-              : formData.get('reasonType'),
-      parentPhone: formData.get('parentPhone'),
-      status: 'Pending',
-      date: new Date().toISOString().split('T')[0]
-    };
-    setLeaveApplications([...leaveApplications, newLeaveApplication]);
-    alert('Leave application submitted successfully!');
-    e.target.reset();
-    setShowOtherReason(false);
+  
+    try {
+      const firebaseUid = await FireUid();
+      const backUrl = import.meta.env.VITE_BACKEND_URL;
+  
+      const formData = new FormData(e.target);
+  
+      const applicationData = {
+        firebaseUid,
+        name: studentData.name,
+        rollNo: studentData.rollNo,
+        hostelName: studentData.hostel,
+        roomNo: studentData.room,
+        phoneNo: studentData.phone,
+        fromDate: formData.get('fromDate'),
+        toDate: formData.get('toDate'),
+        address: formData.get('address'),
+        reasonType: formData.get('reasonType'),
+        otherReason: formData.get('otherReason') || '',
+        parentPhone: formData.get('parentPhone'),
+        status: 'Pending',
+        date: new Date().toISOString(),
+      };
+  
+      await axios.post(`${backUrl}/api/leave/apply`, applicationData);
+  
+      alert('Leave application submitted successfully!');
+      e.target.reset();
+      setShowOtherReason(false);
+      // Optional: Refresh leaveApplications state here if needed
+    } catch (error) {
+      console.error('Error submitting leave application:', error);
+      alert('Failed to submit leave application.');
+    }
   };
+  
+  
+
+  
   const getStatusColor = (status) => {
     switch(status.toLowerCase()) {
       case 'pending': return 'bg-yellow-100 text-yellow-800';
