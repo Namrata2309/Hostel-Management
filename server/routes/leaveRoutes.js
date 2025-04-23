@@ -50,4 +50,27 @@ router.post('/apply', async (req, res) => {
   }
 });
 
+// Get all leave applications
+router.get("/", async (req, res) => {
+  const leaves = await LeaveApplication.find().sort({ date: -1 });
+res.json(leaves);
+
+});
+
+// Update leave status
+router.put("/:id", async (req, res) => {
+  const { status } = req.body;
+  try {
+    const updated = await Leave.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ message: "Error updating leave status." });
+  }
+});
+
+
 export default router;
