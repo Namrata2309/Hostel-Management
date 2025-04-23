@@ -30,9 +30,16 @@ const DashboardRector = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      <Sidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
-      <div className="flex-1 bg-gray-100 p-6 overflow-y-auto">{renderTab()}</div>
+    <div className="flex flex-col md:flex-row h-screen">
+      {/* Sidebar: full height for md+, top-fixed mobile sidebar */}
+      <div className="md:w-64 w-full md:h-screen">
+        <Sidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      </div>
+
+      {/* Main content area */}
+      <div className="flex-1 bg-gray-100 p-4 sm:p-6 overflow-y-auto h-[calc(100vh-64px)] md:h-screen">
+        {renderTab()}
+      </div>
     </div>
   );
 };

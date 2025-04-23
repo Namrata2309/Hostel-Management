@@ -1,10 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../scripts/firebase"; // Adjust the path if needed
+import { auth } from "../../scripts/firebase";
 import toast from "react-hot-toast";
 
-const backUrl = import.meta.env.VITE_BACKEND_URL;// Replace with your backend URL
+const backUrl = import.meta.env.VITE_BACKEND_URL;
 
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +57,6 @@ const RegisterStudent = () => {
 
       toast.success("🎉 Student registered successfully!");
 
-      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -72,56 +71,60 @@ const RegisterStudent = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white shadow-xl rounded-xl p-8">
-      <h2 className="text-3xl font-bold text-center text-indigo-600 mb-6">🎓 Register Student</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Full Name"
-        />
-        <input
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email Address"
-        />
-        <input
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-        />
-        <input
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-          type="text"
-          name="roomNo"
-          value={formData.roomNo}
-          onChange={handleChange}
-          placeholder="Room Number"
-        />
-        <input
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"
-          type="text"
-          name="rollNo"
-          value={formData.rollNo}
-          onChange={handleChange}
-          placeholder="Roll Number"
-        />
-        <button
-          type="submit"
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition duration-200"
-        >
-          Register Student
-        </button>
-      </form>
+    <div className="w-full px-4 sm:px-6 md:px-8 py-10">
+      <div className="max-w-md mx-auto bg-white shadow-xl rounded-xl p-6 sm:p-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-indigo-600 mb-6">
+          🎓 Register Student
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Full Name"
+          />
+          <input
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email Address"
+          />
+          <input
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+          />
+          <input
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
+            type="text"
+            name="roomNo"
+            value={formData.roomNo}
+            onChange={handleChange}
+            placeholder="Room Number"
+          />
+          <input
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400 text-sm sm:text-base"
+            type="text"
+            name="rollNo"
+            value={formData.rollNo}
+            onChange={handleChange}
+            placeholder="Roll Number"
+          />
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition duration-200 text-sm sm:text-base"
+          >
+            Register Student
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
