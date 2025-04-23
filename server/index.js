@@ -8,6 +8,7 @@ import userRoutes from "./routes/userRoutes.js";
 import authRoutes from './routes/authRoutes.js'; // 
 // Add `.js` extension
 import noticeRoutes from "./routes/noticeRoutes.js";
+import complaintRoutes from './routes/complaintsRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,6 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use("/api/users", userRoutes);
 app.use('/api/auth', authRoutes);
 app.use("/api/notice", noticeRoutes);
-
+app.use('/api/complaints', complaintRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

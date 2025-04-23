@@ -81,7 +81,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
- 
+  isProfileComplete: {
+    type: Boolean,
+    default: false
+  },
 
   createdAt: {
     type: Date,

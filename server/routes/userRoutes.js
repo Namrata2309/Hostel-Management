@@ -30,7 +30,7 @@ router.post("/getUserByFirebaseUid", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ role: user.role, email: user.email,roomNo:user.roomNo });
+    return res.status(200).json({ role: user.role, email: user.email,roomNo:user.roomNo,rollNo:user.rollNo,username:user.username,isProfileComplete:user.isProfileComplete,phone:user.phoneNo,hostel:user.hostel});
   } catch (err) {
     console.error("Error fetching user by firebaseUid:", err);
     return res.status(500).json({ message: "Server error" });
@@ -69,6 +69,41 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     console.error("Error saving user:", err);
     res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
+
+router.post('/updateProfile', async (req, res) => {
+  try {
+    const { firebaseUid, hostel, phoneNo } = req.body;
+
+    const isProfileComplete = hostel.trim() !== '' && phoneNo.trim() !== '';
+
+    const updatedUser = await User.findOneAndUpdate(
+      { firebaseUid },
+      {
+        hostel,
+        phoneNo,
+        isProfileComplete:true
+      },
+     
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({
+      message: 'Profile updated successfully',
+      user: {
+        hostel: updatedUser.hostel,
+        phone: updatedUser.phoneNo,
+        isProfileComplete:updatedUser.isProfileComplete
+      }
+    });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
 
