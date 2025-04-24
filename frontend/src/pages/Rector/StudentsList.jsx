@@ -19,7 +19,7 @@ const StudentsList = () => {
 
   const fetchStudents = async () => {
     try {
-      const res = await axios.get(`${backUrl}/api/users/students`);
+      const res = await axios.get(`/api/users/students`);
       setStudents(res.data);
     } catch (err) {
       toast.error("Failed to fetch student list.");
@@ -31,7 +31,7 @@ const StudentsList = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`${backUrl}/api/users/${studentId}`);
+      await axios.delete(`/api/users/${studentId}`);
       setStudents((prev) => prev.filter((s) => s._id !== studentId));
       toast.success("Student removed successfully.");
     } catch (err) {

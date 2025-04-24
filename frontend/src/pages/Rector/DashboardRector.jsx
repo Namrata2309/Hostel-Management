@@ -7,6 +7,7 @@ import Complaints from "./Complaints";
 import AddEvent from "./AddEvent";
 import StudentsList from "./StudentsList";
 import { FireUid } from "../../scripts/firebase";
+import Dashboard from "./Dashboard";
 import axios from "axios";
 
 const DashboardRector = () => {
@@ -47,6 +48,8 @@ const DashboardRector = () => {
         return <AddEvent />;
       case "students":
         return <StudentsList />;
+      case "dashboard":
+        return <Dashboard />
       default:
         return <div>Select a tab</div>;
     }
