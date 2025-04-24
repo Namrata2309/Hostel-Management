@@ -111,7 +111,7 @@ const Register = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", submissionData);
+      const res = await axios.post("/api/auth/register", submissionData);
       
       if (res.status === 201) {
         navigate("/login");

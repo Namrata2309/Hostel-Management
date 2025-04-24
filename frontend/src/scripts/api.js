@@ -12,13 +12,13 @@ console.log(backUrl);
 // console.log(auth.currentUser);
 
 // const firebaseUid = auth.currentUser
-// export const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+// export const res = await axios.post(`/api/users/getUserByFirebaseUid`, {
 //   firebaseUid,
 // });
 
 
 export const sendTokenToBackend = async (token) => {
-  const response = await axios.post(`${backUrl}/api/auth/login`, {
+  const response = await axios.post(`/api/auth/login`, {
     token,
   });
   return response.data;
@@ -29,7 +29,7 @@ export const handleGoogleLogin = async (navigate) => {
     const result = await signInWithPopup(auth, provider);
     const token = await result.user.getIdToken();
 
-    const res = await axios.post(`${backUrl}/api/auth/login`, { token });
+    const res = await axios.post(`/api/auth/login`, { token });
     const user = res.data.user;
     console.log("Google login user:", user);
 
@@ -54,7 +54,7 @@ export const handleEmailLogin = async (e, email, password, navigate) => {
     const result = await signInWithEmailAndPassword(auth, email, password);
     const token = await result.user.getIdToken();
 
-    const res = await axios.post(`${backUrl}/api/auth/login`, { token });
+    const res = await axios.post(`/api/auth/login`, { token });
     const user = res.data.user;
     console.log("Email login user:", user);
 

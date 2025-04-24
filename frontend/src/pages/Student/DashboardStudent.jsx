@@ -72,7 +72,7 @@ const handleProfileSubmit = async (e) => {
   try {
     const firebaseUid = await FireUid();
     const backUrl = import.meta.env.VITE_BACKEND_URL;
-    await axios.post(`${backUrl}/api/users/updateProfile`, {
+    await axios.post(`/api/users/updateProfile`, {
       firebaseUid,
       hostel: studentData.hostel,
       phoneNo: studentData.phone,
@@ -302,52 +302,54 @@ const handleProfileSubmit = async (e) => {
       {/* Main Content */}
       <div className="flex">
         {/* Enhanced Sidebar */}
-        <div className="fixed">
-      <aside 
-        className={`${isCollapsed ? 'w-16' : 'w-64'} bg-indigo-800/95 text-white p-4 h-screen  border-r border-indigo-900/50 transition-all duration-300 ease-in-out relative`}
-      >
-        <div className="text-center mb-8">
-          {!isCollapsed && (
-            /* Profile preview */
-            <div className="py-4">{activeTab.icon}{activeTab}</div>
-          )}
-        </div>
+        <div className="fixed"> 
+  <aside  
+    className={`${isCollapsed ? 'w-0 overflow-hidden p-0' : 'w-64 p-4'} bg-indigo-800/95 text-white h-screen border-r border-indigo-900/50 transition-all duration-300 ease-in-out relative`} 
+  > 
+    {!isCollapsed && (
+      <>
+        <div className="text-center mb-8"> 
+          {/* Profile preview */ 
+          <div className="py-4">{activeTab.icon}{activeTab}</div>}
+        </div> 
 
-        <nav className="space-y-2">
-          {navigationTabs.map((tab) => (
-            <button
-              key={tab.id}
-              className={` w-full flex items-center ${isCollapsed ? 'justify-center' : 'px-4'} py-3 rounded-xl transition-all
-                ${activeTab === tab.id 
-                  ? 'bg-indigo-600/90 shadow-inner font-semibold' 
-                  : 'hover:bg-indigo-700/50 hover:translate-x-1'}
-                ${!isProfileComplete && tab.id !== 'profile' ? 'opacity-50 pointer-events-none' : ''}`}
-              onClick={() => {
-                if (!isProfileComplete && tab.id !== 'profile') return;
-                setActiveTab(tab.id);
-              }}
-            >
+        <nav className="space-y-2"> 
+          {navigationTabs.map((tab) => ( 
+            <button 
+              key={tab.id} 
+              className={`w-full flex items-center px-4 py-3 rounded-xl transition-all 
+                ${activeTab === tab.id  
+                  ? 'bg-indigo-600/90 shadow-inner font-semibold'  
+                  : 'hover:bg-indigo-700/50 hover:translate-x-1'} 
+                ${!isProfileComplete && tab.id !== 'profile' ? 'opacity-50 pointer-events-none' : ''}`} 
+              onClick={() => { 
+                if (!isProfileComplete && tab.id !== 'profile') return; 
+                setActiveTab(tab.id); 
+              }} 
+            > 
               <span className="text-lg mr-3">{tab.icon}</span>
-              {!isCollapsed && tab.label}
-            </button>
-          ))}
+              {tab.label}
+            </button> 
+          ))} 
         </nav>
-        
-        {/* Themed toggle button with light indigo shade */}
-        <button
-          onClick={toggleSidebar}
-          className="absolute -right-3 top-1/2 transform -translate-y-1/2 bg-indigo-200 text-indigo-800 p-1.5 rounded-full shadow-lg hover:shadow-xl border border-indigo-300 group transition-all duration-200 ease-in-out"
-          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          <div className="flex items-center justify-center bg-indigo-100 rounded-full w-6 h-6 group-hover:bg-indigo-50 group-hover:scale-110 transition-all duration-200">
-            {isCollapsed ? 
-              <ChevronRight size={16} className="text-indigo-700 group-hover:text-indigo-600" /> : 
-              <ChevronLeft size={16} className="text-indigo-700 group-hover:text-indigo-600" />
-            }
-          </div>
-        </button>
-      </aside>
-    </div>
+      </>
+    )}
+  </aside>
+  
+  {/* Toggle button positioned outside the sidebar and centered vertically */}
+  <button 
+    onClick={toggleSidebar} 
+    className={`fixed ${isCollapsed ? 'left-3' : 'left-60'} top-1/2 -translate-y-1/2 bg-indigo-200 text-indigo-800 p-1.5 rounded-full shadow-lg hover:shadow-xl border border-indigo-300 group transition-all duration-200 ease-in-out z-10`}
+    aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"} 
+  > 
+    <div className="flex items-center justify-center bg-indigo-100 rounded-full w-6 h-6 group-hover:bg-indigo-50 group-hover:scale-110 transition-all duration-200"> 
+      {isCollapsed ?  
+        <ChevronRight size={16} className="text-indigo-700 group-hover:text-indigo-600" /> :  
+        <ChevronLeft size={16} className="text-indigo-700 group-hover:text-indigo-600" /> 
+      } 
+    </div> 
+  </button>
+</div>
 
         {/* Enhanced Main Content Area */}
         <main className="flex-1 p-8 max-w-7xl mx-auto">

@@ -10,7 +10,7 @@ const Complaints = () => {
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
-        const res = await axios.get(`${backUrl}/api/complaints`);
+        const res = await axios.get(`/api/complaints`);
         setComplaints(res.data);
       } catch (error) {
         toast.error("Failed to fetch complaints");
