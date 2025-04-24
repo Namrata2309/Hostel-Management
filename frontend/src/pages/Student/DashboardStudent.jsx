@@ -817,7 +817,7 @@ const handleProfileSubmit = async (e) => {
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-1">
-                📅 {event.date}
+                📅 {new Date(event.date).toLocaleString()}
               </div>
               <div className="flex items-center gap-1">
                 🕒 {event.time}
