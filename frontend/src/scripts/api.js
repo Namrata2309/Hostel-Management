@@ -78,7 +78,7 @@ export const handleEmailLogin = async (e, email, password, navigate) => {
 export const handleLogout = async (navigate) => {
   try {
     await signOut(auth);
-    console.log("User signed out successfully");
+    // console.log("User signed out successfully");
 
     // Optionally clear localStorage/sessionStorage if used
     // localStorage.removeItem("someToken");
