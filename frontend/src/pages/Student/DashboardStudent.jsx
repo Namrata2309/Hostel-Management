@@ -22,7 +22,7 @@ const StudentDashboard = () => {
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   
   
 useEffect(() => {
@@ -304,7 +304,7 @@ const handleProfileSubmit = async (e) => {
         {/* Enhanced Sidebar */}
         <div className="fixed">
       <aside 
-        className={`${isCollapsed ? 'w-16' : 'w-64'} bg-indigo-800/95 text-white p-4 min-h-screen border-r border-indigo-900/50 transition-all duration-300 ease-in-out relative`}
+        className={`${isCollapsed ? 'w-16' : 'w-64'} bg-indigo-800/95 text-white p-4 h-screen  border-r border-indigo-900/50 transition-all duration-300 ease-in-out relative`}
       >
         <div className="text-center mb-8">
           {!isCollapsed && (
@@ -317,7 +317,7 @@ const handleProfileSubmit = async (e) => {
           {navigationTabs.map((tab) => (
             <button
               key={tab.id}
-              className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'px-4'} py-3 rounded-xl transition-all
+              className={` w-full flex items-center ${isCollapsed ? 'justify-center' : 'px-4'} py-3 rounded-xl transition-all
                 ${activeTab === tab.id 
                   ? 'bg-indigo-600/90 shadow-inner font-semibold' 
                   : 'hover:bg-indigo-700/50 hover:translate-x-1'}
