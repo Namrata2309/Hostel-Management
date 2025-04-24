@@ -1,5 +1,4 @@
-import React, { useState, useEffect, } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect} from "react";
 import Sidebar from "./Sidebar";
 import RegisterStudent from "./RegisterStudent";
 import PostNotice from "./PostNotice";
@@ -13,7 +12,7 @@ import axios from "axios";
 const DashboardRector = () => {
   const [currentTab, setCurrentTab] = useState("register");
   const [userData, setUserData] = useState({});
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -27,7 +26,7 @@ const DashboardRector = () => {
         
       } catch (error) {
         console.error("Error fetching user data:", error);
-        navigate("/"); // Redirect to login if there's an error
+        // navigate("/"); // Redirect to login if there's an error
       }
     };
 
@@ -52,7 +51,7 @@ const DashboardRector = () => {
         return <div>Select a tab</div>;
     }
   };
-  
+  console.log("User data:", userData);
 
   
 

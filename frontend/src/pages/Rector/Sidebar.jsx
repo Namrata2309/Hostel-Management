@@ -6,7 +6,7 @@ import {
   ChevronRight
 } from "lucide-react";
 
-const Sidebar = ({ activeTab, setActiveTab }) => {
+const Sidebar = ({ activeTab, setCurrentTab }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
@@ -53,7 +53,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
                 ${activeTab === tab.id  
                   ? 'bg-indigo-600/90 shadow-inner font-semibold'  
                   : 'hover:bg-indigo-700/50 hover:translate-x-1'}`} 
-              onClick={() => setActiveTab(tab.id)} 
+              onClick={() => setCurrentTab(tab.id)} 
             > 
               <span className="text-lg mr-3">{tab.icon}</span>
               {tab.label}
