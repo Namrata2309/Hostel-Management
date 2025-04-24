@@ -5,6 +5,7 @@ import { handleLogout } from '../../scripts/api';
 import { FireUid } from '../../scripts/firebase';
 import axios from 'axios';
 import toast from "react-hot-toast";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 
 const StudentDashboard = () => {
@@ -21,6 +22,8 @@ const StudentDashboard = () => {
   const [isProfileComplete, setIsProfileComplete] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  
   
 useEffect(() => {
   const fetchUserData = async () => {
@@ -258,6 +261,8 @@ const handleProfileSubmit = async (e) => {
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
+  
   const navigationTabs = [
     { id: 'dashboard', label: 'Dashboard', icon: '🏠' },
     { id: 'profile', label: 'My Profile', icon: '👤' },
@@ -266,11 +271,14 @@ const handleProfileSubmit = async (e) => {
     { id: 'notices', label: 'Notices', icon: '📢' },
     { id: 'events', label: 'Events', icon: '🎉' },
   ];
+  const toggleSidebar = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className=" min-h-screen bg-gray-50">
       {/* Enhanced Header */}
-      <header className="bg-indigo-800 text-white p-5 shadow-lg">
+      <header className= "bg-indigo-800 text-white p-5 shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold tracking-tight">Hostel Management System</h1>
           <div className="flex items-center gap-6">
@@ -294,31 +302,52 @@ const handleProfileSubmit = async (e) => {
       {/* Main Content */}
       <div className="flex">
         {/* Enhanced Sidebar */}
-        <aside className="w-64 bg-indigo-800/95 text-white p-4 min-h-screen border-r border-indigo-900/50">
-          <div className="text-center mb-8">
-            {/* Profile preview */}
-          </div>
+        <div className="fixed">
+      <aside 
+        className={`${isCollapsed ? 'w-16' : 'w-64'} bg-indigo-800/95 text-white p-4 min-h-screen border-r border-indigo-900/50 transition-all duration-300 ease-in-out relative`}
+      >
+        <div className="text-center mb-8">
+          {!isCollapsed && (
+            /* Profile preview */
+            <div className="py-4">{activeTab.icon}{activeTab}</div>
+          )}
+        </div>
 
-          <nav className="space-y-2">
-            {navigationTabs.map((tab) => (
-              <button
-                key={tab.id}
-                className={`w-full flex items-center px-4 py-3 rounded-xl transition-all
-                  ${activeTab === tab.id 
-                    ? 'bg-indigo-600/90 shadow-inner font-semibold' 
-                    : 'hover:bg-indigo-700/50 hover:translate-x-1'}
-                  ${!isProfileComplete && tab.id !== 'profile' ? 'opacity-50 pointer-events-none' : ''}`}
-                onClick={() => {
-                  if (!isProfileComplete && tab.id !== 'profile') return;
-                  setActiveTab(tab.id);
-                }}
-              >
-                <span className="text-lg mr-3">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </nav>
-        </aside>
+        <nav className="space-y-2">
+          {navigationTabs.map((tab) => (
+            <button
+              key={tab.id}
+              className={`w-full flex items-center ${isCollapsed ? 'justify-center' : 'px-4'} py-3 rounded-xl transition-all
+                ${activeTab === tab.id 
+                  ? 'bg-indigo-600/90 shadow-inner font-semibold' 
+                  : 'hover:bg-indigo-700/50 hover:translate-x-1'}
+                ${!isProfileComplete && tab.id !== 'profile' ? 'opacity-50 pointer-events-none' : ''}`}
+              onClick={() => {
+                if (!isProfileComplete && tab.id !== 'profile') return;
+                setActiveTab(tab.id);
+              }}
+            >
+              <span className="text-lg mr-3">{tab.icon}</span>
+              {!isCollapsed && tab.label}
+            </button>
+          ))}
+        </nav>
+        
+        {/* Themed toggle button with light indigo shade */}
+        <button
+          onClick={toggleSidebar}
+          className="absolute -right-3 top-1/2 transform -translate-y-1/2 bg-indigo-200 text-indigo-800 p-1.5 rounded-full shadow-lg hover:shadow-xl border border-indigo-300 group transition-all duration-200 ease-in-out"
+          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          <div className="flex items-center justify-center bg-indigo-100 rounded-full w-6 h-6 group-hover:bg-indigo-50 group-hover:scale-110 transition-all duration-200">
+            {isCollapsed ? 
+              <ChevronRight size={16} className="text-indigo-700 group-hover:text-indigo-600" /> : 
+              <ChevronLeft size={16} className="text-indigo-700 group-hover:text-indigo-600" />
+            }
+          </div>
+        </button>
+      </aside>
+    </div>
 
         {/* Enhanced Main Content Area */}
         <main className="flex-1 p-8 max-w-7xl mx-auto">
@@ -788,7 +817,7 @@ const handleProfileSubmit = async (e) => {
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-1">
-                📅 {event.date}
+                📅 {new Date(event.date).toLocaleString()}
               </div>
               <div className="flex items-center gap-1">
                 🕒 {event.time}
