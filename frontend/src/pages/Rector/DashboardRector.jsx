@@ -19,7 +19,7 @@ const DashboardRector = () => {
       try {
         const firebaseUid = await FireUid();
         const backUrl = import.meta.env.VITE_BACKEND_URL;
-        const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+        const res = await axios.post(`/api/users/getUserByFirebaseUid`, {
           firebaseUid,
         });
         setUserData(res.data);

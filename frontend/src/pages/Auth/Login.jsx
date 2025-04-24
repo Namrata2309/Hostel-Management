@@ -29,7 +29,7 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
       const firebaseUid = userCredential.user.uid;
 
       // 2. Get user role from backend
-     const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+     const res = await axios.post(`/api/users/getUserByFirebaseUid`, {
         firebaseUid,
       });
       userdata.current=res

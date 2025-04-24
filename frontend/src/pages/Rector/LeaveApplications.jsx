@@ -10,7 +10,7 @@ const LeaveApplications = () => {
 
   const fetchLeaves = async () => {
     try {
-      const res = await axios.get(`${backUrl}/api/leave`);
+      const res = await axios.get(`/api/leave`);
       setLeaveApplications(res.data);
     } catch (err) {
       toast.error("Failed to fetch leave data");
@@ -23,7 +23,7 @@ const LeaveApplications = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.put(`${backUrl}/api/leave/${id}`, { status });
+      await axios.put(`/api/leave/${id}`, { status });
       toast.success(`Leave ${status}`);
       fetchLeaves();
     } catch (err) {
