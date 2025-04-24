@@ -36,6 +36,8 @@ router.post("/getUserByFirebaseUid", async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 });
+
+
 // Register user (Google or Email+Password)
 router.post("/register", async (req, res) => {
   

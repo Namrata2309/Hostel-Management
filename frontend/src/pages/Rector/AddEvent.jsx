@@ -91,7 +91,7 @@ const AddEvent = () => {
   const paginatedEvents = filteredEvents.slice(0, page * pageSize);
 
   return (
-    <div className="w-full px-4 py-10">
+    <div className="w-full px-4 py-14">
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-xl">
         <h2 className="text-2xl font-bold text-indigo-700 text-center mb-6">
           {editingId ? "✏️ Edit Event" : "📅 Add Hostel Event"}

@@ -7,10 +7,11 @@ import Complaints from "./Complaints";
 import AddEvent from "./AddEvent";
 import StudentsList from "./StudentsList";
 import { FireUid } from "../../scripts/firebase";
+import Dashboard from "./Dashboard"
 import axios from "axios";
 
 const DashboardRector = () => {
-  const [currentTab, setCurrentTab] = useState("register");
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const DashboardRector = () => {
   }, []);
 
   const renderTab = () => {
-    switch (currentTab) {
+    switch (activeTab) {
       case "register":
         return <RegisterStudent />;
       case "notice":
@@ -44,8 +45,14 @@ const DashboardRector = () => {
         return <AddEvent />;
       case "students":
         return <StudentsList />;
+      case "dashboard":
+        return <Dashboard />;
       default:
-        return <div>Select a tab</div>;
+        return (
+          <div className="text-xl font-semibold text-gray-700">
+            Welcome to the Rector Dashboard 👋
+          </div>
+        );
     }
   };
 
@@ -74,12 +81,12 @@ const DashboardRector = () => {
         </div>
       </header>
 
-      {/* Sidebar (with padding top to avoid going under fixed header) */}
+      {/* Sidebar */}
       <div className="md:w-64 w-full pt-16 md:pt-0 md:h-screen">
-        <Sidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
+        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
 
-      {/* Main content (with padding top to prevent overlap with fixed header) */}
+      {/* Main content */}
       <main className="flex-1 bg-gray-100 p-4 sm:p-6 overflow-y-auto h-[calc(100vh-64px)] pt-20 md:pt-6">
         {renderTab()}
       </main>
