@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import RegisterStudent from "./RegisterStudent";
 import PostNotice from "./PostNotice";
@@ -12,18 +13,21 @@ import axios from "axios";
 const DashboardRector = () => {
   const [currentTab, setCurrentTab] = useState("register");
   const [userData, setUserData] = useState({});
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const firebaseUid = await FireUid();
         const backUrl = import.meta.env.VITE_BACKEND_URL;
-        const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
+        const res = await axios.post(`/api/users/getUserByFirebaseUid`, {
           firebaseUid,
         });
         setUserData(res.data);
+        console.log("User data:", res.data);
+        
       } catch (error) {
         console.error("Error fetching user data:", error);
+        navigate("/"); // Redirect to login if there's an error
       }
     };
 
@@ -48,6 +52,9 @@ const DashboardRector = () => {
         return <div>Select a tab</div>;
     }
   };
+  
+
+  
 
   return (
     <div className="flex flex-col md:flex-row h-screen">
@@ -62,7 +69,7 @@ const DashboardRector = () => {
               </span>
             )}
             <div className="flex items-center gap-3">
-              <span className="hidden md:inline-block font-medium">Welcome, {userData.name}</span>
+              <span className="hidden md:inline-block font-medium">Welcome, {userData.username}</span>
               <button
                 className="bg-red-500/90 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:scale-105 active:scale-95"
                 onClick={() => console.log("Logout clicked")}

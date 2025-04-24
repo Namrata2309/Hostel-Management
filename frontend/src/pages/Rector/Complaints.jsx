@@ -34,7 +34,7 @@ const Complaints = () => {
   };
 
   return (
-    <div className="w-full px-4 sm:px-6 md:px-8 py-8">
+    <div className="w-full px-4 sm:px-6 md:px-8 py-14">
       <h2 className="text-2xl sm:text-3xl font-bold text-indigo-700 mb-8 text-center">
         🛠️ Student Complaints
       </h2>

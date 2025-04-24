@@ -44,7 +44,7 @@ const PostNotice = () => {
   }, []);
 
   return (
-    <div className="w-full px-4 sm:px-6 md:px-8 py-10">
+    <div className="w-full px-4 sm:px-6 md:px-8 py-14">
       <div className="max-w-xl mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-lg">
         <h2 className="text-2xl sm:text-3xl font-bold text-indigo-600 mb-6 text-center">
           📢 Post a New Notice
