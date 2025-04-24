@@ -72,7 +72,7 @@ const handleProfileSubmit = async (e) => {
   try {
     const firebaseUid = await FireUid();
     const backUrl = import.meta.env.VITE_BACKEND_URL;
-    await axios.post(`${backUrl}/api/users/updateProfile`, {
+    await axios.post(`/api/users/updateProfile`, {
       firebaseUid,
       hostel: studentData.hostel,
       phoneNo: studentData.phone,
@@ -304,7 +304,7 @@ const handleProfileSubmit = async (e) => {
         {/* Enhanced Sidebar */}
         <div className="fixed">
       <aside 
-        className={`${isCollapsed ? 'w-16' : 'w-64'} bg-indigo-800/95 text-white p-4 h-screen  border-r border-indigo-900/50 transition-all duration-300 ease-in-out relative`}
+        className={`${isCollapsed ? 'w-0' : 'w-64'} bg-indigo-800/95 text-white p-4 h-screen  border-r border-indigo-900/50 transition-all duration-300 ease-in-out relative`}
       >
         <div className="text-center mb-8">
           {!isCollapsed && (
