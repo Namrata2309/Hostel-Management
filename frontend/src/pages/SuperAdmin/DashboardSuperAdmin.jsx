@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { collection, onSnapshot, addDoc, serverTimestamp } from "firebase/firestore";
 
-const backUrl = import.meta.env.VITE_BACKEND_URL;
+
 
 const DashboardSuperAdmin = () => {
   const [role, setRole] = useState("rector");

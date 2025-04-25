@@ -7,38 +7,44 @@ import {
   HomeModernIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
+import { FireUid } from "../../scripts/firebase"; // Adjust the path as needed
 
-const backUrl = import.meta.env.VITE_BACKEND_URL;
+
+
 
 const StudentsList = () => {
   const [students, setStudents] = useState([]);
-
+   // Get the current user's Firebase UID
   useEffect(() => {
     fetchStudents();
   }, []);
 
-  const fetchStudents = async () => {
-    try {
-      const res = await axios.get(`/api/users/students`);
-      setStudents(res.data);
-    } catch (err) {
-      toast.error("Failed to fetch student list.");
-    }
-  };
+    const fetchStudents = async () => {
+      try {
+        const res = await axios.get(`/api/users/students`);
+        setStudents(res.data);
+        console.log("Fetched students:", res.data);
+      } catch (err) {
+        toast.error("Failed to fetch student list.");
+      }
+    };
 
-  const handleDelete = async (studentId) => {
-    const confirmDelete = window.confirm("Are you sure you want to remove this student?");
-    if (!confirmDelete) return;
-
-    try {
-      await axios.delete(`/api/users/${studentId}`);
-      setStudents((prev) => prev.filter((s) => s._id !== studentId));
-      toast.success("Student removed successfully.");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to remove student.");
-    }
-  };
+    const handleDelete = async (firebaseUid) => {
+      const confirmDelete = window.confirm("Are you sure you want to remove this student?");
+      if (!confirmDelete) return;
+    
+      try {
+        console.log("Deleting student with UID:", firebaseUid);
+        
+        await axios.delete(`/api/users/deleteUser/${firebaseUid}`);
+        setStudents((prev) => prev.filter((s) => s.firebaseUid !== firebaseUid));
+        toast.success("Student removed from Firebase and DB");
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to remove student.");
+      }
+    };
+    
 
   return (
     <div className="max-w-6xl mx-auto mt-8 px-4 sm:px-6 lg:px-8 py-15">
@@ -49,11 +55,12 @@ const StudentsList = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {students.map((student) => (
           <div
-            key={student._id}
+            key={student.firebaseUid}
             className="bg-gradient-to-br from-white to-slate-50 p-5 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg border border-gray-200 transition-all duration-300 relative"
           >
             <button
-              onClick={() => handleDelete(student._id)}
+              onClick={() => handleDelete(student.firebaseUid)}
+              
               className="absolute top-3 right-3 p-1.5 text-red-500 hover:text-red-700 transition"
               title="Remove Student"
             >

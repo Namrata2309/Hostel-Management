@@ -1,6 +1,7 @@
 // server/routes/userRoutes.js
 import express from "express";
 import User from "../models/User.js";
+import admin from "../config/firebase.js"; // Adjust the path as necessary
 
 const router = express.Router();
 
@@ -109,13 +110,20 @@ router.post('/updateProfile', async (req, res) => {
   }
 });
 // delete student
-router.delete('/:id', async (req, res) => {
+router.delete("/deleteUser/:uid", async (req, res) => {
+  const { uid } = req.params;
+
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
-    if (!deletedUser) return res.status(404).json({ error: 'User not found' });
-    res.status(200).json({ message: 'User deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: 'Something went wrong' });
+    // Delete from Firebase Auth
+    await admin.auth().deleteUser(uid);
+
+    // Delete from MongoDB
+    await User.findOneAndDelete({ firebaseUid: uid });
+
+    res.status(200).json({ message: "User deleted successfully from both Firebase and MongoDB" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ message: "Failed to delete user" });
   }
 });
 

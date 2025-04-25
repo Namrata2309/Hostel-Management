@@ -5,8 +5,7 @@ import { handleLogout } from '../../scripts/api';
 import { FireUid } from '../../scripts/firebase';
 import axios from 'axios';
 import toast from "react-hot-toast";
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-
+import { ChevronLeft, ChevronRight } from 'lucide-react'; // Adjust the path as needed
 
 const StudentDashboard = () => {
   const [studentData, setStudentData] = useState({
@@ -23,13 +22,13 @@ const StudentDashboard = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
-  
+  const navigate = useNavigate(); // ✅ This is what you're missing or doing incorrectly
+  const [error, setError] = useState("");
   
 useEffect(() => {
   const fetchUserData = async () => {
     try {
       const firebaseUid = await FireUid();
-      const backUrl = import.meta.env.VITE_BACKEND_URL;
       const res = await axios.post(`/api/users/getUserByFirebaseUid`, { firebaseUid });
       const userData = res.data;
       
@@ -49,7 +48,10 @@ useEffect(() => {
       setStudentData(newStudentData);
 
       if (userData.isProfileComplete) {
+        console.log('Profile is complete:', userData.isProfileComplete);
         setIsProfileComplete(true);
+        console.log(isProfileComplete);
+        
         // proceed to dashboard or next tab
         setActiveTab('dashboard'); // or any other tab
       } else {
@@ -71,12 +73,11 @@ const handleProfileSubmit = async (e) => {
   e.preventDefault();
   try {
     const firebaseUid = await FireUid();
-    const backUrl = import.meta.env.VITE_BACKEND_URL;
     await axios.post(`/api/users/updateProfile`, {
       firebaseUid,
       hostel: studentData.hostel,
       phoneNo: studentData.phone,
-      isUpdated:studentData.isUpdated
+      isUpdated:true,
     });
     //  checkProfileCompleteness(studentData);
     alert('Profile updated successfully!');
@@ -109,7 +110,7 @@ const handleProfileSubmit = async (e) => {
   ]);
 
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   
 
@@ -118,7 +119,6 @@ const handleProfileSubmit = async (e) => {
   
     try {
       const firebaseUid = await FireUid();
-      const backUrl = import.meta.env.VITE_BACKEND_URL;
   
       const formData = new FormData(e.target);
   
@@ -150,7 +150,7 @@ const handleProfileSubmit = async (e) => {
     const fetchComplaints = async () => {
       try {
         const firebaseUid = await FireUid();
-        const backUrl = import.meta.env.VITE_BACKEND_URL;
+        
         const response = await axios.get(`/api/complaints/user/${firebaseUid}`);
         setComplaints(response.data);
       } catch (error) {
@@ -198,7 +198,6 @@ const handleProfileSubmit = async (e) => {
   
     try {
       const firebaseUid = await FireUid();
-      const backUrl = import.meta.env.VITE_BACKEND_URL;
   
       const formData = new FormData(e.target);
   
@@ -234,7 +233,6 @@ const handleProfileSubmit = async (e) => {
     const fetchLeaveHistory = async () => {
       try {
         const firebaseUid = await FireUid(); // Assumes FireUid() returns the current user's UID
-        const backUrl = import.meta.env.VITE_BACKEND_URL;
         const response = await axios.get(`/api/leave/history/${firebaseUid}`);
         console.log(response);
         
@@ -288,7 +286,7 @@ const handleProfileSubmit = async (e) => {
             <div className="flex items-center gap-3">
               <span className="hidden md:inline-block font-medium">Welcome, {studentData.name}</span>
               <button 
-                 
+                 onClick={() => handleLogout(navigate, error, studentData)}
                 className="bg-red-500/90 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all
                           transform hover:scale-105 active:scale-95 shadow-md"
               >

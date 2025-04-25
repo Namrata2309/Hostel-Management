@@ -9,10 +9,15 @@ import StudentsList from "./StudentsList";
 import { FireUid } from "../../scripts/firebase";
 import Dashboard from "./Dashboard";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+import { handleLogout } from '../../scripts/api';
 
 const DashboardRector = () => {
-  const [currentTab, setCurrentTab] = useState("register");
+  const [currentTab, setCurrentTab] = useState("dashboard");
   const [userData, setUserData] = useState({});
+  const navigate = useNavigate(); // ✅ This is what you're missing or doing incorrectly
+  const [error, setError] = useState("");
+  
   // const navigate = useNavigate();
   useEffect(() => {
     const fetchUserData = async () => {
@@ -74,7 +79,7 @@ const DashboardRector = () => {
               <span className="hidden md:inline-block font-medium">Welcome, {userData.username}</span>
               <button
                 className="bg-red-500/90 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md transform transition-all hover:scale-105 active:scale-95"
-                onClick={() => console.log("Logout clicked")}
+                onClick={() => handleLogout(navigate, error, userData)}
               >
                 Logout →
               </button>

@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../scripts/firebase";
 import toast from "react-hot-toast";
 
-const backUrl = import.meta.env.VITE_BACKEND_URL;
+
 
 const RegisterStudent = () => {
   const [formData, setFormData] = useState({

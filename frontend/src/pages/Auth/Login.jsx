@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const userdata=useRef()
 
-const backUrl = import.meta.env.VITE_BACKEND_URL;
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -27,9 +28,9 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
       // 1. Firebase login
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUid = userCredential.user.uid;
-
+      const backUrl = import.meta.env.VITE_BACKEND_URL; // Adjust this based on your environment 
       // 2. Get user role from backend
-     const res = await axios.post(`/api/users/getUserByFirebaseUid`, {
+     const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, {
         firebaseUid,
       });
       userdata.current=res
@@ -40,7 +41,7 @@ const backUrl = import.meta.env.VITE_BACKEND_URL;
       
       
       
-      // 3. Redirect based on role
+// 3. Redirect based on role
       if (role === "superadmin") {
         navigate("/SuperAdmin");
       } else if (role === "rector") {

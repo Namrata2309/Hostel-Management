@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-const backUrl = import.meta.env.VITE_BACKEND_URL;
+
 
 const LeaveApplications = () => {
   const [leaveApplications, setLeaveApplications] = useState([]);
@@ -42,6 +42,7 @@ const LeaveApplications = () => {
     }
   };
 
+  // Filtered applications based on selected status
   const filteredApplications =
     filterStatus === "All"
       ? leaveApplications
@@ -111,20 +112,20 @@ const LeaveApplications = () => {
 
                 {/* Show Approve/Reject buttons only if status is Pending */}
                 {app.status === "Pending" && (
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                    <button
-                      onClick={() => handleStatusChange(app._id, "Approved")}
-                      className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition text-sm"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => handleStatusChange(app._id, "Rejected")}
-                      className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition text-sm"
-                    >
-                      Reject
-                    </button>
-                  </div>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <button
+                    onClick={() => handleStatusChange(app._id, "Approved")}
+                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition text-sm"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleStatusChange(app._id, "Rejected")}
+                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition text-sm"
+                  >
+                    Reject
+                  </button>
+                </div>
                 )}
               </div>
             </div>
