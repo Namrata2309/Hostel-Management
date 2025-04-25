@@ -8,7 +8,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { FireUid } from "../../scripts/firebase"; // Adjust the path as needed
-
+const backUrl = import.meta.env.VITE_BACKEND_URL;
 
 
 
@@ -21,7 +21,7 @@ const StudentsList = () => {
 
     const fetchStudents = async () => {
       try {
-        const res = await axios.get(`/api/users/students`);
+        const res = await axios.get(`${backUrl}/api/users/students`);
         setStudents(res.data);
         console.log("Fetched students:", res.data);
       } catch (err) {
@@ -36,7 +36,7 @@ const StudentsList = () => {
       try {
         console.log("Deleting student with UID:", firebaseUid);
         
-        await axios.delete(`/api/users/deleteUser/${firebaseUid}`);
+        await axios.delete(`${backUrl}/api/users/deleteUser/${firebaseUid}`);
         setStudents((prev) => prev.filter((s) => s.firebaseUid !== firebaseUid));
         toast.success("Student removed from Firebase and DB");
       } catch (err) {

@@ -13,12 +13,12 @@ const Dashboard = () => {
       try {
         const firebaseUid = await FireUid();
        
-
+        const backUrl = import.meta.env.VITE_BACKEND_URL;
         const [userRes, studentRes, complaintRes, leaveRes] = await Promise.all([
-          axios.post(`/api/users/getUserByFirebaseUid`, { firebaseUid }),
-          axios.get(`/api/users/students`),
-          axios.get(`/api/complaints`),
-          axios.get(`/api/leave`),
+          axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, { firebaseUid }),
+          axios.get(`${backUrl}/api/users/students`),
+          axios.get(`${backUrl}/api/complaints`),
+          axios.get(`${backUrl}/api/leave`),
         ]);
 
         // console.log("User:", userRes.data);

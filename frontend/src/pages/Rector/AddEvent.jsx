@@ -11,7 +11,7 @@ const AddEvent = () => {
   const [filterDate, setFilterDate] = useState("");
   const [page, setPage] = useState(1);
   const pageSize = 5;
-
+  const backUrl = import.meta.env.VITE_BACKEND_URL;
   const handleChange = (e) => {
     const { name, value } = e.target;
   
@@ -48,7 +48,7 @@ const AddEvent = () => {
 
     try {
       if (editingId) {
-        await axios.put(`/api/events/${editingId}`, event);
+        await axios.put(`${backUrl}/api/events/${editingId}`, event);
         toast.success("Event updated!");
       } else {
         await axios.post("/api/events", event);
@@ -68,7 +68,7 @@ const AddEvent = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/api/events/${id}`);
+      await axios.delete(`${backUrl}/api/events/${id}`);
       toast.success("Event deleted!");
       fetchEvents();
     } catch {

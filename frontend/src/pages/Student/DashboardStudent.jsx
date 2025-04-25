@@ -24,12 +24,12 @@ const StudentDashboard = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const navigate = useNavigate(); // ✅ This is what you're missing or doing incorrectly
   const [error, setError] = useState("");
-  
+  const backUrl = import.meta.env.VITE_BACKEND_URL;
 useEffect(() => {
   const fetchUserData = async () => {
     try {
       const firebaseUid = await FireUid();
-      const res = await axios.post(`/api/users/getUserByFirebaseUid`, { firebaseUid });
+      const res = await axios.post(`${backUrl}/api/users/getUserByFirebaseUid`, { firebaseUid });
       const userData = res.data;
       
       
@@ -73,7 +73,7 @@ const handleProfileSubmit = async (e) => {
   e.preventDefault();
   try {
     const firebaseUid = await FireUid();
-    await axios.post(`/api/users/updateProfile`, {
+    await axios.post(`${backUrl}/api/users/updateProfile`, {
       firebaseUid,
       hostel: studentData.hostel,
       phoneNo: studentData.phone,
@@ -134,7 +134,7 @@ const handleProfileSubmit = async (e) => {
         status: 'Pending'
       };
   
-      const response = await axios.post(`/api/complaints/submit`, complaintData);
+      const response = await axios.post(`${backUrl}/api/complaints/submit`, complaintData);
   
       alert('Complaint submitted successfully!');
       e.target.reset();
@@ -151,7 +151,7 @@ const handleProfileSubmit = async (e) => {
       try {
         const firebaseUid = await FireUid();
         
-        const response = await axios.get(`/api/complaints/user/${firebaseUid}`);
+        const response = await axios.get(`${backUrl}/api/complaints/user/${firebaseUid}`);
         setComplaints(response.data);
       } catch (error) {
         console.error('Error fetching complaints:', error);
@@ -218,7 +218,7 @@ const handleProfileSubmit = async (e) => {
         date: new Date().toISOString(),
       };
   
-      await axios.post(`/api/leave/apply`, applicationData);
+      await axios.post(`${backUrl}/api/leave/apply`, applicationData);
   
       alert('Leave application submitted successfully!');
       e.target.reset();
@@ -233,7 +233,7 @@ const handleProfileSubmit = async (e) => {
     const fetchLeaveHistory = async () => {
       try {
         const firebaseUid = await FireUid(); // Assumes FireUid() returns the current user's UID
-        const response = await axios.get(`/api/leave/history/${firebaseUid}`);
+        const response = await axios.get(`${backUrl}/api/leave/history/${firebaseUid}`);
         console.log(response);
         
         setLeaveApplications(response.data); // Assumes you have useState for leaveApplications

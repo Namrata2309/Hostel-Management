@@ -28,7 +28,7 @@ const DashboardSuperAdmin = () => {
   } = useForm();
 
   const watchRole = watch("role", "rector");
-
+  const backUrl = import.meta.env.VITE_BACKEND_URL;
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "activities"), (snapshot) => {
       const logs = snapshot.docs.map((doc) => doc.data());
@@ -40,7 +40,7 @@ const DashboardSuperAdmin = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await axios.get(`/api/stats/overview`);
+        const response = await axios.get(`${backUrl}/api/stats/overview`);
         setStats(response.data);
       } catch (err) {
         console.error("Failed to fetch stats:", err);
@@ -65,7 +65,7 @@ const DashboardSuperAdmin = () => {
         return `G-${Math.floor(100000000000000000000 + Math.random() * 900000000000000000000)}`;
       }
 
-      await axios.post(`/api/users/register`, {
+      await axios.post(`${backUrl}/api/users/register`, {
         firebaseUid: userCredential.user.uid,
         email: data.email,
         username: data.username,

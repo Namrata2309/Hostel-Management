@@ -43,8 +43,8 @@ const RegisterStudent = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       const firebaseUid = userCredential.user.uid;
-
-      await axios.post(`/api/users/register`, {
+      const backUrl = import.meta.env.VITE_BACKEND_URL;
+      await axios.post(`${backUrl}/api/users/register`, {
         firebaseUid,
         email,
         username: name,
